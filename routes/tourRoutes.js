@@ -1,6 +1,7 @@
 const express = require('express');
 
 const {
+  checkID,
   getAllTours,
   createTour,
   getTour,
@@ -9,6 +10,9 @@ const {
 } = require('./../controllers/tourControler');
 
 const router = express.Router();
+
+// if no param in the route, its ignored and skipped
+router.param('id', checkID);
 
 router.route('/tours').get(getAllTours).post(createTour);
 
