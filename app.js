@@ -145,27 +145,27 @@ const deleteUser = (req, res) => {
 
 //// 3) Routes
 
-// app.get('/api/v1/tours', getAllTours);
-// app.get('/api/v1/tours/:id', getTour);
-// app.post('/api/v1/tours', createTour);
-// app.patch('/api/v1/tours/:id', updateTour);
-// app.delete('/api/v1/tours/:id', deleteTour);
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
+tourRouter.route('/tours').get(getAllTours).post(createTour);
 
-app
-  .route('/api/v1/tours/:id')
+tourRouter
+  .route('/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
 
-app.route('/api/v1/users').get(getAllUsers).post(createUser);
+userRouter.route('/users').get(getAllUsers).post(createUser);
 
-app
-  .route('/api/v1/users/:id')
+userRouter
+  .route('/:id')
   .get(getUser)
   .patch(updateUser)
   .delete(deleteUser);
+
+app.use('/api/v1/tours', tourRouter); // mounting a route on a new router
+app.use('api/v1/users', userRouter);
 
 //// 4) Start server
 
