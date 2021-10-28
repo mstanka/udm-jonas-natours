@@ -2,12 +2,14 @@ const express = require('express');
 const morgan = require('morgan');
 
 const tourRouter = require('./routes/tourRoutes');
-const userRouter = require('./routes/userRoutes')
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
 //// Middlewares
-app.use(morgan('dev')); // HTTP request level Middleware(logger). It proves to be very helpful while debugging and also if you want to create Log files.
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev')); // HTTP request level Middleware(logger). It proves to be very helpful while debugging and also if you want to create Log files.
+}
 
 app.use(express.json()); // middleware - modify incoming req data
 
