@@ -5,7 +5,7 @@ const tours = JSON.parse(
 ); // run only once at the beginning - can be Sync
 
 exports.checkID = (res, req, next, val) => {
-  console.log('Tour ID is ${val}');
+  console.log(`Tour ID is ${val}`);
 
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
@@ -20,7 +20,7 @@ exports.checkBody = (req, res, next) => {
   if (!req.body.name || !req.body.price) {
     return res.status(400).json({
       status: 'fail',
-      message: 'Missing name or price'
+      message: 'Missing name or price',
     });
   }
   next();
@@ -60,7 +60,7 @@ exports.getTour = (req, res) => {
 
 exports.createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
-  const newTour = Object.assign({ id: newId }, req.body);
+  const newTour = { id: newId, ...req.body };
 
   tours.push(newTour);
 
