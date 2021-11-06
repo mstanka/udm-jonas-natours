@@ -15,8 +15,16 @@ exports.getAllTours = async (req, res) => {
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
     // { difficulty: 'easy', duration: { $gte: 5 } }
+    let query = Tour.find(JSON.parse(queryStr));
 
-    const query = Tour.find(JSON.parse(queryStr));
+    // 3) Sorting
+    // api/v1/tours?sort=-price,ratingsAverage
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
 
     //// using mongoose we can chain
     // const tours = await Tour.find()
