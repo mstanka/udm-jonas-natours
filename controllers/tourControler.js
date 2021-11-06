@@ -26,6 +26,15 @@ exports.getAllTours = async (req, res) => {
       query = query.sort('-createdAt');
     }
 
+    // 4) Field limiting
+    // api/v1/tours?fields=name,duration,difficulty,price
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v'); // to exclude it
+    }
+
     //// using mongoose we can chain
     // const tours = await Tour.find()
     //   .where('duration')
